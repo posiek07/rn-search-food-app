@@ -1,35 +1,52 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 
-import { CATEGORIES } from "../data/dummy-data";
+import { CATEGORIES, MEALS } from "../data/dummy-data";
+import MealItem from "../components/MealItem";
 
-const CategoryMealsScreen = (props) => {
+const CategoryMealsScreen = props => {
   const catId = props.navigation.getParam("categoryId");
-  const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
-  return (
-    <View style={styles.screen}>
-      <Text>The Category Meals Screen</Text>
-      <Text>{selectedCategory.title}</Text>
-      <Button
-        title="Go to details"
-        onPress={() => {
-          props.navigation.navigate({ routeName: "MealDetail" });
+
+  const displayMeals = MEALS.filter(
+    meal => meal.categoryIds.indexOf(catId) >= 0
+  );
+
+  const renderMealItem = itemData => {
+    return (
+      <MealItem
+        title={itemData.item.title}
+        duration={itemData.item.duration}
+        complexity={itemData.item.complexity}
+        affordability={itemData.item.affordability}
+        image={itemData.item.imageUrl}
+        onSelectMeal={() => {
+          props.navigation.navigate({
+            routeName: "MealDetail",
+            params: {
+              mealId: itemData.item.id,
+            },
+          });
         }}
       />
-      <Button
-        title="Go back"
-        onPress={() => {
-          props.navigation.pop();
-        }}
+    );
+  };
+
+  return (
+    <View style={styles.screen}>
+      <FlatList
+        data={displayMeals}
+        onSelectMeal={() => {}}
+        renderItem={renderMealItem}
+        style={{ width: "100%" }}
       />
     </View>
   );
 };
 
-CategoryMealsScreen.navigationOptions = (navigationData) => {
+CategoryMealsScreen.navigationOptions = navigationData => {
   const catId = navigationData.navigation.getParam("categoryId");
 
-  const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
+  const selectedCategory = CATEGORIES.find(cat => cat.id === catId);
 
   return {
     headerTitle: selectedCategory.title,
