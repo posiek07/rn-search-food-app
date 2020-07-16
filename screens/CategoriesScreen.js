@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import { CATEGORIES } from "../data/dummy-data";
 import CategoryGridTile from "../components/CategoryGridTile";
 
-const CategoriesScreen = (props) => {
-  const renderGridItem = (itemData) => {
+const CategoriesScreen = props => {
+  const renderGridItem = itemData => {
     return (
       <CategoryGridTile
         title={itemData.item.title}
