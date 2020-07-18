@@ -1,20 +1,30 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import MealList from "../components/MealList";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import CustomHeaderButton from "../components/CustomHeaderButton";
+import { useSelector } from "react-redux";
 
-const FavoritesScreen = (props) => {
-  return (
-    <View style={styles.screen}>
-      <Text>Favorites Screen</Text>
-    </View>
-  );
+const FavoritesScreen = props => {
+  const favMeals = useSelector(state => state.meals.favMeals);
+
+  return <MealList displayMeals={favMeals} navigation={props.navigation} />;
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+FavoritesScreen.navigationOptions = navData => {
+  return {
+    headerTitle: "Your pick",
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
+  };
+};
 
 export default FavoritesScreen;
