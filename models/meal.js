@@ -11,6 +11,7 @@ class Meal {
     steps,
     isGlutenFree,
     isVegan,
+    isVegeterian,
     isLactoseFree
   ) {
     this.id = id;
@@ -24,6 +25,7 @@ class Meal {
     this.steps = steps;
     this.isGlutenFree = isGlutenFree;
     this.isVegan = isVegan;
+    this.isVegeterian = isVegeterian;
     this.isLactoseFree = isLactoseFree;
   }
 }

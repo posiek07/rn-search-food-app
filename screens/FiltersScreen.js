@@ -3,8 +3,11 @@ import { StyleSheet, Text, View, Switch, Platform } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import FilterSwitch from "../components/FilterSwitch";
+import { useDispatch } from "react-redux";
+import { setFilters } from "../store/actions/meals";
 
 const FiltersScreen = props => {
+  const dispatch = useDispatch();
   const { navigation } = props;
 
   const [isGlutenFree, setIsGlutenFree] = useState(false);
@@ -19,8 +22,8 @@ const FiltersScreen = props => {
       vegan: isVegan,
       vegeterian: isVegeterian,
     };
-    console.log(appliedFilters);
-  }, [isGlutenFree, isLactoseFree, isVegan, isVegeterian]);
+    dispatch(setFilters(appliedFilters));
+  }, [isGlutenFree, isLactoseFree, isVegan, isVegeterian, dispatch]);
 
   useEffect(() => {
     navigation.setParams({
@@ -56,6 +59,8 @@ const FiltersScreen = props => {
 };
 
 FiltersScreen.navigationOptions = navData => {
+
+
   return {
     headerTitle: "Filter Meals",
     headerLeft: () => (
